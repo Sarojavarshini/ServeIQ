@@ -1,0 +1,5 @@
+{
+  "name": "ServeIQ - AI Restaurant",
+  "description": "Smart Restaurant with AI Waiter, Kitchen Dashboard, and Admin Analytics.",
+  "requestFramePermissions": ["microphone", "camera"]
+}
