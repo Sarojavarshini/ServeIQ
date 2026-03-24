@@ -8,7 +8,6 @@ import BillView from "./components/BillView";
 import { CartItem, Order } from "./types";
 import { Utensils, ChefHat, BarChart3, Home, CheckCircle } from "lucide-react";
 
-// ✅ Success state-ah inga add panniruken
 type ViewState =
   | "landing"
   | "customer"
@@ -21,7 +20,7 @@ type ViewState =
 export default function App() {
   const [currentView, setCurrentView] = useState<ViewState>("landing");
   const [cart, setCart] = useState<CartItem[]>([]);
-  const [orders, setOrders] = useState<Order[]>([]); // Initial empty orders
+  const [orders, setOrders] = useState<Order[]>([]);
 
   // ✅ Dynamic Revenue Calculation
   const totalRevenue = useMemo(() => {
@@ -30,11 +29,11 @@ export default function App() {
       .reduce((acc, order) => acc + (order.total || 0), 0);
   }, [orders]);
 
-  // ✅ Order place aanathum success page-ku redirect pannum logic
+  // ✅ Order placement logic
   const placeOrder = (order: Order) => {
     setOrders((prev) => [...prev, order]);
     setCart([]);
-    setCurrentView("success"); // Payment success aanathum inga pogum
+    setCurrentView("success");
   };
 
   const updateOrderStatus = (orderId: string, status: Order["status"]) => {
@@ -77,9 +76,8 @@ export default function App() {
           <KitchenView orders={orders} updateOrderStatus={updateOrderStatus} />
         );
       case "admin":
+        // ✅ Passing both orders and totalRevenue to AdminView
         return <AdminView orders={orders} totalRevenue={totalRevenue} />;
-
-      // ✅ SUCCESS PAGE UI
       case "success":
         return (
           <div className="flex flex-col items-center justify-center h-full text-center p-6 bg-white/50">
@@ -132,20 +130,28 @@ export default function App() {
         <div className="flex gap-2 sm:gap-4">
           <button
             onClick={() => setCurrentView("landing")}
-            className={`px-3 py-2 rounded-lg font-medium transition flex items-center gap-2 ${currentView === "landing" ? "bg-[#FF9933]" : "hover:bg-white/10"}`}
+            className={`px-3 py-2 rounded-lg font-medium transition flex items-center gap-2 ${
+              currentView === "landing" ? "bg-[#FF9933]" : "hover:bg-white/10"
+            }`}
           >
             <Home size={18} /> <span className="hidden sm:inline">Home</span>
           </button>
           <button
             onClick={() => setCurrentView("customer")}
-            className={`px-3 py-2 rounded-lg font-medium transition flex items-center gap-2 ${["customer", "cart", "checkout", "success"].includes(currentView) ? "bg-[#FF9933]" : "hover:bg-white/10"}`}
+            className={`px-3 py-2 rounded-lg font-medium transition flex items-center gap-2 ${
+              ["customer", "cart", "checkout", "success"].includes(currentView)
+                ? "bg-[#FF9933]"
+                : "hover:bg-white/10"
+            }`}
           >
             <Utensils size={18} />{" "}
             <span className="hidden sm:inline">Customer</span>
           </button>
           <button
             onClick={() => setCurrentView("kitchen")}
-            className={`px-3 py-2 rounded-lg font-medium transition flex items-center gap-2 ${currentView === "kitchen" ? "bg-[#FF9933]" : "hover:bg-white/10"}`}
+            className={`px-3 py-2 rounded-lg font-medium transition flex items-center gap-2 ${
+              currentView === "kitchen" ? "bg-[#FF9933]" : "hover:bg-white/10"
+            }`}
           >
             <ChefHat size={18} />{" "}
             <span className="hidden sm:inline">Kitchen</span>
@@ -157,7 +163,9 @@ export default function App() {
           </button>
           <button
             onClick={() => setCurrentView("admin")}
-            className={`px-3 py-2 rounded-lg font-medium transition flex items-center gap-2 ${currentView === "admin" ? "bg-[#FF9933]" : "hover:bg-white/10"}`}
+            className={`px-3 py-2 rounded-lg font-medium transition flex items-center gap-2 ${
+              currentView === "admin" ? "bg-[#FF9933]" : "hover:bg-white/10"
+            }`}
           >
             <BarChart3 size={18} />{" "}
             <span className="hidden sm:inline">Admin</span>
@@ -165,7 +173,7 @@ export default function App() {
         </div>
       </nav>
 
-      <main className="flex-grow overflow-auto">{renderView()}</main>
+      <main className="grow overflow-auto">{renderView()}</main>
     </div>
   );
 }

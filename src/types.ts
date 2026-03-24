@@ -17,7 +17,9 @@ export interface Order {
   id: string;
   items: CartItem[];
   total: number;
-  status: 'pending' | 'preparing' | 'ready' | 'delivered';
+  // ✅ Inga 'ready', 'delivered' thookittu 'completed', 'cancelled' add panniruken
+  // ஏன்னா App.tsx-la 'cancelled' filter use panreenga.
+  status: 'pending' | 'preparing' | 'completed' | 'cancelled'; 
   timestamp: Date;
   priority: 'normal' | 'high';
 }

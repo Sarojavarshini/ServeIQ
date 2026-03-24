@@ -25,6 +25,7 @@ import {
 
 interface AdminViewProps {
   orders: Order[];
+  totalRevenue: number;
 }
 
 export default function AdminView({ orders }: AdminViewProps) {
